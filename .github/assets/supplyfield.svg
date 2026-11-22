@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="248" viewBox="0 0 1200 248" role="img" aria-labelledby="title desc">
+  <title id="title">Supplyfield</title>
+  <desc id="desc">Procurement control room. START Hack Munich 2026, Lio challenge.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#28445a" stroke-width="1"/></pattern>
+    <clipPath id="crop"><rect x="742" y="0" width="458" height="248"/></clipPath>
+  </defs>
+  <rect width="1200" height="248" fill="#102b40"/>
+  <g clip-path="url(#crop)">
+    <rect x="742" width="458" height="248" fill="url(#grid)"/>
+    <g fill="none" stroke-width="3">
+      <path d="M696 194H819L904 109H993L1071 31H1220" stroke="#78a4ad"/>
+      <path d="M715 73H854L935 154H1069L1180 43H1220" stroke="#c8d6ce"/>
+      <path d="M742 226H884L956 154H1068L1130 216H1220" stroke="#dda455"/>
+    </g>
+    <g stroke="#102b40" stroke-width="4"><circle cx="904" cy="109" r="7" fill="#78a4ad"/><circle cx="854" cy="73" r="7" fill="#c8d6ce"/><circle cx="1068" cy="154" r="9" fill="#dda455"/></g>
+  </g>
+  <g fill="#f8f4e9">
+    <text x="52" y="53" font-family="monospace" font-size="15" letter-spacing="2.2">START HACK MUNICH 2026  /  LIO</text>
+    <text x="47" y="150" font-family="Georgia, serif" font-size="90" letter-spacing="-4">Supplyfield</text>
+    <text x="54" y="201" font-family="Arial, sans-serif" font-size="24" fill="#d3dfdf">Procurement control room</text>
+  </g>
+</svg>
