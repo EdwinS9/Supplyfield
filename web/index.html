@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#faf9f6">
+  <title>Supplyfield · Control room</title>
+  <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/control.css">
+  <script src="/evidence.js" defer></script>
+  <script src="/dashboards.js" defer></script>
+  <script src="/quality.js" defer></script>
+  <script src="/integrations.js" defer></script>
+  <script src="/environment.js" defer></script>
+  <script src="/mail.js" defer></script>
+  <script src="/control.js" defer></script>
+  <script src="/source-progress.js" defer></script>
+</head>
+<body>
+<header class="rail"><div class="rail-inner">
+  <a class="brand" href="#delivery"><span class="brand-mark" aria-hidden="true"></span><span>Supplyfield<small>Control room</small></span></a>
+  <nav aria-label="Workspace">
+    <span class="nav-group">Dashboards</span>
+    <a href="#delivery"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M1.5 4.5h8v7h-8zM9.5 7h3l2 2.5v2h-5"/><circle cx="4.5" cy="12" r="1.3"/><circle cx="11.5" cy="12" r="1.3"/></svg><span class="nav-text">Deliveries<span class="agent" title="Run by: planner">Planner</span></span></a>
+    <a href="#procurement"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M2 3h2l1.5 7h7L14 5H5"/><circle cx="6.5" cy="12.5" r="1"/><circle cx="11.5" cy="12.5" r="1"/></svg><span class="nav-text">Procurement<span class="agent" title="Run by: resolver, supply_liaison">Resolver, Liaison</span></span></a>
+    <a href="#supply"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M2 5.5 8 2.5l6 3v5l-6 3-6-3z"/><path d="M2 5.5l6 3 6-3M8 8.5v5"/></svg><span class="nav-text">Stock and prices<span class="agent" title="Run by: propagator">Propagator</span></span></a>
+    <a href="#quality"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M8 1.5 13.5 4v4c0 3.2-2.4 5.6-5.5 6.5C4.9 13.6 2.5 11.2 2.5 8V4z"/><path d="m5.5 8 1.8 1.8L10.8 6.3"/></svg><span class="nav-text">Data quality<span class="agent" title="Run by: data_steward, verifier">Data steward, Verifier</span></span></a>
+    <a href="#mail"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M2 3.5h12v9H2z"/><path d="m2 4.5 6 4.5 6-4.5"/></svg><span class="nav-text">Mail traffic<span class="agent" title="Run by: supply_liaison, mail_reader">Liaison, Mail reader</span></span></a>
+    <span class="nav-group">Details</span>
+    <a href="#integrations"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M5.5 2v3.5M10.5 2v3.5M3.5 5.5h9v2.5a4.5 4.5 0 0 1-9 0zM8 12.5V15"/></svg><span class="nav-text">Integrations<span class="agent" title="Run by: mail_reader, table_reader, document_reader">Mail and file readers</span></span></a>
+    <a href="#environment"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke-dasharray="1.5 2"/><circle cx="8" cy="8" r="2"/><circle cx="8" cy="3.5" r="1"/><circle cx="12" cy="10.5" r="1"/><circle cx="4" cy="10.5" r="1"/></svg><span class="nav-text">Learning environment<span class="agent" title="Run by: the whole agent loop">All agents, training</span></span></a>
+    <a href="#board"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M1.5 8h3l2-5 3 10 2-5h3"/></svg><span class="nav-text">Agents log<span class="agent" title="Run by: gate, executor">Gate, Executor</span></span></a>
+  </nav>
+  <div class="rail-foot">
+    <small id="connection" class="live-status" role="status">Connecting</small>
+    <button id="pause" type="button" disabled>Pause all</button>
+  </div>
+</div></header>
+<main>
+  <aside id="provenance" class="provenance" aria-label="Where these numbers come from" hidden></aside>
+  <p id="feedback" role="status" hidden></p>
+  <section id="integrations" hidden>
+    <div class="heading">
+      <h1>Integrations</h1>
+    </div>
+    <div id="integrations-company" class="figures"></div>
+    <div class="row"><h2>Connected sources</h2></div>
+    <div id="connectors" class="grid"><p class="empty">Loading…</p></div>
+  </section>
+  <section id="environment" hidden>
+    <div class="heading">
+      <h1>Learning environment</h1>
+      <span id="env-meta" class="meta"></span>
+    </div>
+    <div class="env-toolbar">
+      <label>Scenario<select id="env-scenario" disabled><option>Loading scenarios…</option></select></label>
+      <button type="button" id="env-play" disabled>Pause</button>
+    </div>
+    <div class="env-stage" aria-label="Scenario replay">
+      <div class="env-stage-head"><span id="env-replay-meta"></span></div>
+      <div id="env-events" class="env-events" aria-label="Events in this scenario"></div>
+      <div id="env-cols" class="env-cols" aria-live="polite">
+        <section class="env-col what"><h3 class="env-col-label"><b>1</b>What happened</h3><div id="env-what"></div></section>
+        <section class="env-col how"><h3 class="env-col-label"><b>2</b>How the agents reacted</h3><div id="env-how"></div></section>
+        <section class="env-col pay"><h3 class="env-col-label"><b>3</b>What it paid</h3><div id="env-pay"></div></section>
+      </div>
+      <div class="env-nav"><button type="button" id="env-prev">Previous</button><span id="env-position"></span><button type="button" id="env-next">Next</button></div>
+    </div>
+    <details class="env-activity"><summary>Live Board and training activity</summary>
+      <ol id="env-loop" class="loop"></ol><div id="env-agents" class="env-agents"></div>
+    </details>
+  </section>
+  <section id="delivery">
+    <div class="heading">
+      <h1>Deliveries</h1>
+      <div class="clock"><small>Time to deadline</small><strong id="delivery-clock">Reading</strong></div>
+    </div>
+    <div class="row first"><h2>Products</h2></div>
+    <div id="delivery-products" class="table-wrap"><p class="empty">Loading…</p></div>
+    <div class="row"><h2>Client orders</h2></div>
+    <div id="client-orders" class="table-wrap"></div>
+  </section>
+  <section id="procurement" hidden>
+    <div class="heading">
+      <h1>Procurement</h1>
+    </div>
+    <div class="row first"><h2>Products</h2></div>
+    <div id="procurement-products" class="table-wrap"><p class="empty">Loading…</p></div>
+    <div class="row"><h2>Individual orders</h2></div>
+    <div id="procurement-orders" class="table-wrap"></div>
+    <div class="row"><h2>Other actions</h2></div>
+    <div id="other-actions" class="table-wrap"></div>
+  </section>
+  <section id="supply" hidden>
+    <div class="heading">
+      <h1>Stock and prices</h1>
+    </div>
+    <div id="supply-figures" class="figures"></div>
+    <div class="row"><h2>Stock by part</h2></div>
+    <div id="stock" class="table-wrap"><p class="empty">Loading…</p></div>
+    <div class="row"><h2>Price negotiations</h2></div>
+    <div id="negotiations" class="grid"></div>
+    <div class="row"><h2>Purchases</h2></div>
+    <div id="purchases" class="table-wrap"></div>
+  </section>
+  <section id="quality" hidden>
+    <div class="heading">
+      <h1>Data quality</h1>
+      <span id="quality-meta" class="meta"></span>
+    </div>
+    <div id="quality-summary" class="figures"></div>
+    <div id="quality-kinds"><p class="empty">Checking…</p></div>
+    <div class="row"><h2>Every file checked</h2></div>
+    <div id="quality-files" class="folders"></div>
+  </section>
+  <section id="mail" hidden>
+    <div class="heading">
+      <h1>Mail traffic</h1>
+      <span id="mail-meta" class="meta"></span>
+    </div>
+    <div id="mail-figures" class="figures"></div>
+    <div class="mail-toolbar">
+      <div class="mail-view-toggle" role="group" aria-label="View mode">
+        <button type="button" id="mail-mode-threads" class="primary">Threads</button>
+        <button type="button" id="mail-mode-list">All messages</button>
+      </div>
+      <label>Direction<select id="mail-direction">
+        <option value="all">All traffic</option>
+        <option value="outbound">Sent by agents</option>
+        <option value="inbound">Received</option>
+      </select></label>
+      <label>Inbox<select id="mail-inbox"><option value="all">All inboxes</option></select></label>
+      <label>Status<select id="mail-status">
+        <option value="all">All statuses</option>
+        <option value="sent">Sent &amp; received</option>
+        <option value="pending">Waiting / pending</option>
+        <option value="issues">Blocked / failed</option>
+      </select></label>
+      <input id="mail-search" type="search" placeholder="Search" aria-label="Search mail">
+      <button type="button" id="mail-refresh">Refresh</button>
+    </div>
+    <div id="mail-content"><p class="empty">Loading…</p></div>
+  </section>
+  <section id="board" hidden>
+    <div class="heading">
+      <h1>Agents log</h1>
+    </div>
+    <details id="source-progress" class="panel"><summary>Source processing</summary>
+      <p id="source-summary" role="status"></p>
+      <div id="source-choices" hidden>
+        <label>File version <select id="source-file"></select></label>
+        <p id="source-counts"></p><div id="source-proof"></div>
+      </div>
+      <button id="refresh-sources" type="button">Refresh</button>
+    </details>
+    <div id="feed" class="stack"></div>
+  </section>
+</main>
+<dialog id="evidence" aria-labelledby="evidence-title">
+  <div class="heading"><h2 id="evidence-title">Where this comes from</h2><form method="dialog"><button>Close</button></form></div>
+  <div id="sources" aria-live="polite"></div><div id="excerpt"></div>
+</dialog>
+</body>
+</html>

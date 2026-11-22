@@ -1,0 +1,58 @@
+
+[providers.primary]
+base_url_env = "LLM_BASE_URL"
+api_key_env = "LLM_API_KEY"
+model_env = "LLM_MODEL"
+alt_model_env = "LLM_ALT_MODEL"
+max_in_flight = 4
+requests_per_minute = 9
+
+[providers.backup]
+base_url_env = "LLM_BACKUP_BASE_URL"
+api_key_env = "LLM_BACKUP_API_KEY"
+model_env = "LLM_BACKUP_MODEL"
+max_in_flight = 4
+
+[providers.strong]
+base_url_env = "LLM_STRONG_BASE_URL"
+api_key_env = "LLM_STRONG_API_KEY"
+model_env = "LLM_STRONG_MODEL"
+reasoning_api = true
+max_in_flight = 4
+budget_usd = 20.0
+
+[retry]
+max_attempts = 5
+backoff_seconds = [2, 4, 8, 16, 32]
+timeout_seconds = 120
+
+[roles]
+reader = ["strong", "primary", "primary:alt"]
+vision = ["strong", "primary", "primary:alt"]
+agent = ["strong", "primary", "primary:alt"]
+persona = ["backup", "primary", "primary:alt"]
+reflect = ["primary", "backup", "strong"]
+reader_retry = ["strong", "primary:alt", "primary"]
+vision_retry = ["strong", "primary:alt", "primary"]
+
+[thinking]
+reader = false
+vision = false
+reader_retry = false
+vision_retry = false
+persona = false
+agent = true
+reflect = true
+
+[temperature]
+reader = 0.0
+vision = 0.0
+reader_retry = 0.0
+vision_retry = 0.0
+agent = 0.2
+persona = 0.7
+reflect = 0.7
+
+[limits]
+max_prompt_tokens = 20000
+max_output_tokens = 1500
